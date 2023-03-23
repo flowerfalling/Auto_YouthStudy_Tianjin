@@ -16,8 +16,8 @@ def main():
     header = {'Cookie': f'JSESSIONID={args.c}'}
     while True:
         with requests.get('http://admin.ddy.tjyun.com/zm/rank', headers=header) as resp:
-            if resp.status_code == 504:
-                print('rank 504')
+            if resp.status_code in (502, 504, 400):
+                print('rank error')
                 break
             page = BeautifulSoup(resp.text, 'html.parser')
             span = page.find('span', class_='total')
