@@ -30,14 +30,13 @@ async def visit(t, req, w):
         conn.send(req)
         await asyncio.sleep(w)
         r = conn.recv(400)
-        if b'HTTP/1.1 403' in r:
-            print(403)
-            break
-        elif b'HTTP/1.1 502' in r:
-            print(502)
-            break
-        elif b'JSESSIONID' in r:
-            print('cookie过期')
+        if b'HTTP/1.1 302' not in r:
+            if b'HTTP/1.1 403' in r:
+                print(403)
+            elif b'HTTP/1.1 502' in r:
+                print(502)
+            elif b'JSESSIONID' in r:
+                print('cookie过期')
             break
         nots += 1
     conn.close()
