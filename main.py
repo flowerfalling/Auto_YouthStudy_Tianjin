@@ -17,7 +17,7 @@ def get_args():
     parser.add_argument('-e', '--epochs', type=int, default=1, help='重复次数')
     parser.add_argument('-tn', '--tasks-num', type=int, default=1, help='task数量')
     parser.add_argument('-rn', '--requests-num', type=int, default=1, help='单个task循环请求次数,最好不要超过1000')
-    parser.add_argument('-w', '--wait', type=float, default=0.05, help='单个task中每次请求后等待时间(s)')
+    parser.add_argument('-w', '--wait', type=float, default=0., help='单个task中每次请求后等待时间(s)')
     parser.add_argument('-we', '--wait-epoch', type=float, default=30, help='每次循环后等待时间(s)')
     parser.add_argument('-p', '--print', type=str, default='n', help='是否打印报文(y/n)')
     return parser.parse_args()
@@ -38,8 +38,8 @@ async def visit(t, req, w, p):
                 print(403)
             elif b'HTTP/1.1 502' in r:
                 print(502)
-            elif b'JSESSIONID' in r:
-                print('cookie过期')
+        if b'JSESSIONID' in r:
+            print('cookie过期')
             break
         nots += 1
     conn.close()

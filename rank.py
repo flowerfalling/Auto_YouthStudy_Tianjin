@@ -12,17 +12,20 @@ import argparse
 def main():
     parser = argparse.ArgumentParser(description='Required parameters')
     parser.add_argument('-c', '--cookie', type=str, required=True, help='cookie')
+    parser.add_argument('-o', '--once', type=str, help='只获取一次排名(y/n)', default='n')
     args = parser.parse_args()
-    header = {'Cookie': f'JSESSIONID={args.c}'}
+    header = {'Cookie': f'JSESSIONID={args.cookie}'}
     while True:
-        with requests.get('http://admin.ddy.tjyun.com/zm/rank', headers=header) as resp:
-            if resp.status_code in (502, 504, 400):
+        with requests.get('http://admin.ddy.tjyun.com/zm/rank', headers=header, allow_redirects=False) as resp:
+            if resp.status_code in (502, 504, 400, 302):
                 print('rank error')
                 break
             page = BeautifulSoup(resp.text, 'html.parser')
             span = page.find('span', class_='total')
             print('\r次数:', span.text, end='')
             time.sleep(1)
+        if args.once:
+            break
 
 
 if __name__ == '__main__':
