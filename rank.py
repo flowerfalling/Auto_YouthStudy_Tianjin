@@ -24,7 +24,7 @@ def main():
             span = page.find('span', class_='total')
             print('\r次数:', span.text, end='')
             time.sleep(1)
-        if args.once:
+        if args.once == 'y':
             break
 
 
