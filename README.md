@@ -7,14 +7,16 @@
 ## 使用方法
 
 ```shell
-python main.py --cookie[ --epochs[ --tasks-num[ --requests-num[ --wait[ --wait-epoch[ --print]]]]]]
+python main.py --cookie[ --epochs[ --tasks-num[ --requests-num[ --wait[ --wait-epoch[ --out[ --proxy]]]]]]]
 ```
 
 ```shell
-python rank.py --cookie
+python rank.py --cookie[ --once]
 ```
 
 ## 参数
+
+main.py
 
 * `-c` `--cookie` cookie
 * `-e` `--epochs` 重复次数
@@ -22,7 +24,13 @@ python rank.py --cookie
 * `-rn` `--requests-num` 单个task循环请求次数,最好不要超过1000
 * `-w` `--wait` 单个task中每次请求后等待时间(s)
 * `-we` `--wait-epoch` 每次循环后等待时间(s)
-* `-p` `--print` 是否打印报文(y/n)
+* `-o` `--out` 是否打印报文(y/n)
+* `-p` `--proxy` 设置代理,格式为"ip:port"
+
+rank.py
+
+- `-c` `--cookie` cookie,同main.py
+- `-o` `--once` 只获取一次排名(y/n)
 
 
 ## 如何获取cookie
@@ -40,7 +48,7 @@ python rank.py --cookie
 
 理论次数 = tn * rn * epochs
 
-理论耗时 = (rm * w * n + we) * epochs
+理论耗时 = (rm * w * n + we) * epochs - we
 
 *n为正整数,一般为1,除非执行tn次发送报文的时间大于wait时间,n为发送tn次报文所需时间除以wait时间向上取整*
 
@@ -104,7 +112,9 @@ python rank.py --cookie
 
 ## 推荐参数
 
+运行一次理论次数200,000次,理论时间490s
+
 ```shell
-python main.py -c xxxxxxxxx -e 4 -tn 50 -rn 1000 -w 0.1 -we 30 -p n
+python main.py -c xxxxxxxxx -e 4 -tn 50 -rn 1000 -w 0.1 -we 30
 ```
 

@@ -7,6 +7,7 @@ import asyncio
 import socket
 import time
 import argparse
+import socks
 
 nots = 0
 
@@ -19,7 +20,8 @@ def get_args():
     parser.add_argument('-rn', '--requests-num', type=int, default=1, help='单个task循环请求次数,最好不要超过1000')
     parser.add_argument('-w', '--wait', type=float, default=0.1, help='单个task中每次请求后等待时间(s)')
     parser.add_argument('-we', '--wait-epoch', type=float, default=30, help='每次循环后等待时间(s)')
-    parser.add_argument('-p', '--print', type=str, default='n', help='是否打印报文(y/n)')
+    parser.add_argument('-o', '--out', type=str, default='n', help='是否打印报文(y/n)')
+    parser.add_argument('-p', '--proxy', type=str, default=None, help='添加代理(eg. "127.0.0.1:7890")')
     return parser.parse_args()
 
 
@@ -45,9 +47,31 @@ async def visit(t, req, w, p):
     conn.close()
 
 
+def proxy(p: str):
+    if not p:
+        return
+    p = p.split(':')
+    try:
+        socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, p[0], int(p[1]))
+    except IndexError or ValueError as e:
+        print(e)
+        return False
+    socket.socket = socks.socksocket
+    try:
+        conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        conn.connect(('admin.ddy.tjyun.com', 80))
+        conn.close()
+    except socks.ProxyConnectionError as e:
+        print(e)
+        return False
+    return True
+
+
 async def main(args):
+    if not proxy(args.proxy):
+        return
     req_content = bytes(f'GET /zm/jump/1 HTTP/1.1\r\nHost: admin.ddy.tjyun.com\r\nCookie: JSESSIONID={args.cookie}\r\n\r\n', encoding='utf-8')
-    tasks = [asyncio.create_task(visit(args.requests_num, req_content, args.wait, args.print)) for _ in range(args.tasks_num)]
+    tasks = [asyncio.create_task(visit(args.requests_num, req_content, args.wait, args.out)) for _ in range(args.tasks_num)]
     await asyncio.wait(tasks)
 
 
