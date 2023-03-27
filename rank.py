@@ -13,6 +13,7 @@ def main():
     parser = argparse.ArgumentParser(description='Required parameters')
     parser.add_argument('-c', '--cookie', type=str, required=True, help='cookie')
     parser.add_argument('-o', '--once', type=str, help='只获取一次排名(y/n)', default='n')
+    parser.add_argument('-i', '--interval', type=int, help='刷新间隔(s)', default=1)
     args = parser.parse_args()
     header = {'Cookie': f'JSESSIONID={args.cookie}'}
     while True:
@@ -23,7 +24,7 @@ def main():
             page = BeautifulSoup(resp.text, 'html.parser')
             span = page.find('span', class_='total')
             print('\r次数:', span.text, end='')
-            time.sleep(1)
+            time.sleep(abs(args.interval))
         if args.once == 'y':
             break
 
