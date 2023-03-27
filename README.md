@@ -99,8 +99,7 @@ python rank.py --cookie
         3-wait2									:done, 2-3wait2, after 2-3send2, 10ms   
         3-recv2                      			:done, 2-3recv2, after 2-3wait2, 1ms   
         epoch2-end : milestone, e2end, after 2-3recv2, 0ms  
-        wait-epoch : done, we2, after 2-3recv2, 10ms 
-        end : milestone, e2end, after we2, 0ms
+        end : milestone, e2end, after e2end, 0ms
 ```
 
 ## 推荐参数

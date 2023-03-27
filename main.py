@@ -55,12 +55,13 @@ def run():
     global nots
     args = get_args()
     for e in range(args.epochs):
+        if e:
+            time.sleep(args.wait_epoch)
         print(f'epoch{e + 1} start')
         t = time.time()
         asyncio.run(main(args))
         print(f'epoch{e + 1}: finish, use time: {time.time() - t}s, 理论增加次数: {nots}')
         nots = 0
-        time.sleep(args.wait_epoch)
 
 
 if __name__ == '__main__':
