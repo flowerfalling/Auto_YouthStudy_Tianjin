@@ -11,7 +11,7 @@ python main.py --cookie[ --epochs[ --tasks-num[ --requests-num[ --wait[ --wait-e
 ```
 
 ```shell
-python rank.py --cookie[ --once]
+python rank.py --cookie[ --once[ --interval]]
 ```
 
 ## 参数
@@ -31,6 +31,7 @@ rank.py
 
 - `-c` `--cookie` cookie,同main.py
 - `-o` `--once` 只获取一次排名(y/n)
+- `-i` `--interval` 连续获取排名的间隔时间(s)
 
 
 ## 如何获取cookie
