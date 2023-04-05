@@ -49,7 +49,7 @@ async def visit(t, req, w, p):
 
 def proxy(p: str):
     if not p:
-        return
+        return True
     p = p.split(':')
     try:
         socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, p[0], int(p[1]))
