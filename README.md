@@ -6,17 +6,58 @@
 
 ## 使用方法
 
-```shell
-python main.py --cookie[ --epochs[ --tasks-num[ --requests-num[ --wait[ --wait-epoch[ --out[ --proxy]]]]]]]
-```
+1. 刷次数
 
-```shell
-python rank.py --cookie[ --once[ --interval]]
-```
+	```shell
+	python num.py --cookie[ --epochs[ --tasks-num[ --requests-num[ --wait[ --wait-epoch[ --out[ --proxy]]]]]]]
+	```
+
+2. 实时次数显示
+
+	```shell
+	python rank.py --cookie[ --once[ --interval]]
+	```
+
+3. 刷人数
+
+	```shell
+	python person.py --cookie[ --deptId[ --file[ --title[ --proxy]]]]
+	```
+
+4. 爬取团支部id
+
+	```shell
+	python deptId.py[ --proxy]
+	```
+
+## 推荐
+
+1. 刷次数
+
+	运行一次理论次数200,000次,理论时间490s
+
+	```shell
+	python num.py -c xxxxxxxxx -e 4 -tn 50 -rn 1000 -w 0.1 -we 30
+	```
+
+2. 刷人数
+
+	```shell
+	python person.py -c xxxxxxxxx -d 100xxxxxxxxxxxxx -f ./xxx.csv
+	```
+
+	xxx.csv:
+
+| name     | tel   | type | sex |
+|----------|-------|------|-----|
+| falling1 | xxxx1 | 2    | 1   |
+| falling2 | xxxx2 | 2    | 1   |
+| falling3 | xxxx3 | 2    | 1   |
+| falling4 | xxxx4 | 2    | 1   |
 
 ## 参数
 
-main.py
+#### main.py
 
 * `-c` `--cookie` cookie
 * `-e` `--epochs` 重复次数
@@ -27,18 +68,31 @@ main.py
 * `-o` `--out` 是否打印报文(y/n)
 * `-p` `--proxy` 设置代理,格式为"ip:port"
 
-rank.py
+#### rank.py
 
 - `-c` `--cookie` cookie,同main.py
 - `-o` `--once` 只获取一次排名(y/n)
 - `-i` `--interval` 连续获取排名的间隔时间(s)
+- `-p` `--proxy` 设置代理,同main.py
+
+#### person.py
+
+- `-c` `--cookie` cookie,同main.py
+- `-d` `--deptId` 所在团支部的id,可通过浏览器f12查看或通过deptId.py爬取查找
+- `-f` `--file` 读取信息的csv文件,格式为4列,分别对应:名字,电话,团员青年/普通青年(1/2),性别:男/女(1/2)
+- `-t` `--title` 读取文件是否加载第一行(默认为否,若csv文件没有表头可设置为"y")
+- `-p` `--proxy` 设置代理,同main.py
+
+#### deptId.py
+
+- `-p` `--proxy` 设置代理,同main.py
 
 
 ## 如何获取cookie
 
 可以通过Fiddle(电脑)或HttpCanary(手机)抓取访问青年大学习时的cookie, 然后将"JSESSIONID="后边的部分截取下来作为参数传入`--cookie`
 
-## 次数与间隔
+## 刷次数高并发的次数与间隔
 
 1. tasks-num 协程task数目
 2. requests-num 每个task中发送请求的次数
@@ -111,14 +165,6 @@ rank.py
         end : milestone, e2end, after e2end, 0ms
 ```
 
-## 推荐参数
-
-运行一次理论次数200,000次,理论时间490s
-
-```shell
-python main.py -c xxxxxxxxx -e 4 -tn 50 -rn 1000 -w 0.1 -we 30
-```
-
 ## 其他
 
 至于为什么一开始就是v5.x.x开头,咳咳之前有过4版我自己用的,现在整合了一下就v5了hhh
@@ -137,3 +183,8 @@ python main.py -c xxxxxxxxx -e 4 -tn 50 -rn 1000 -w 0.1 -we 30
 
 注意点网站坏了就别玩了
 
+**添加了刷人数**
+
+就是说这网站的逻辑我真蚌埠住,懒得写了反正就很逆天
+
+悠着点用要是人家长脑子了改了就用不了了
