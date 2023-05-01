@@ -52,7 +52,7 @@ class Study:
             reader = csv.reader(f)
             self.__info = list(reader)[0 if t else 1:]
 
-    def load_iter(self, i: Iterator[list[str, str, str, str], ...]) -> None:
+    def load_iter(self, i: Iterator[list[str, str, str, str]]) -> None:
         self.__info = i
 
     def get_code(self) -> str:
