@@ -1,6 +1,6 @@
 # Auto_YouthStudy_Tianjin
 
-天津市青年大学习刷学习次数工具
+天津市青年大学习 刷学习次数/刷人数(完成率) 工具
 
 **<u>本工具仅供交流学习使用,请勿用于非法用途</u>**
 
@@ -9,19 +9,19 @@
 1. 刷次数
 
 	```shell
-	python num.py --cookie[ --epochs[ --tasks-num[ --requests-num[ --wait[ --wait-epoch[ --out[ --proxy]]]]]]]
+	python num.py --cookie[ --epochs][ --tasks-num][ --requests-num][ --wait][ --wait-epoch][ --out][ --proxy]
 	```
 
-2. 实时次数显示
+2. 实时学习次数显示
 
 	```shell
-	python rank.py --cookie[ --once[ --interval]]
+	python rank.py --cookie[ --once][ --interval]
 	```
 
 3. 刷人数
 
 	```shell
-	python person.py --cookie[ --deptId[ --file[ --title[ --proxy]]]]
+	python person.py --cookie --deptId --file[ --title][ --proxy]
 	```
 
 4. 爬取团支部id
@@ -48,16 +48,16 @@
 
 	xxx.csv:
 
-| name     | tel   | type | sex |
-|----------|-------|------|-----|
-| falling1 | xxxx1 | 2    | 1   |
-| falling2 | xxxx2 | 2    | 1   |
-| falling3 | xxxx3 | 2    | 1   |
-| falling4 | xxxx4 | 2    | 1   |
+	| name     | tel   | type | sex |
+	|----------|-------|------|-----|
+	| falling1 | xxxx1 | 2    | 1   |
+	| falling2 | xxxx2 | 2    | 1   |
+	| falling3 | xxxx3 | 2    | 1   |
+	| falling4 | xxxx4 | 2    | 1   |
 
 ## 参数
 
-#### main.py
+#### main
 
 * `-c` `--cookie` cookie
 * `-e` `--epochs` 重复次数
@@ -68,22 +68,22 @@
 * `-o` `--out` 是否打印报文(y/n)
 * `-p` `--proxy` 设置代理,格式为"ip:port"
 
-#### rank.py
+#### rank
 
 - `-c` `--cookie` cookie,同main.py
 - `-o` `--once` 只获取一次排名(y/n)
 - `-i` `--interval` 连续获取排名的间隔时间(s)
 - `-p` `--proxy` 设置代理,同main.py
 
-#### person.py
+#### person
 
 - `-c` `--cookie` cookie,同main.py
 - `-d` `--deptId` 所在团支部的id,可通过浏览器f12查看或通过deptId.py爬取查找
-- `-f` `--file` 读取信息的csv文件,格式为4列,分别对应:名字,电话,团员青年/普通青年(1/2),性别:男/女(1/2)
+- `-f` `--file` 读取信息的csv文件,格式为4列,分别对应:名字,电话(这个字段不能设置相同的值),团员青年/普通青年(1/2),性别:男/女(1/2)
 - `-t` `--title` 读取文件是否加载第一行(默认为否,若csv文件没有表头可设置为"y")
 - `-p` `--proxy` 设置代理,同main.py
 
-#### deptId.py
+#### deptId
 
 - `-p` `--proxy` 设置代理,同main.py
 
@@ -188,3 +188,5 @@
 就是说这网站的逻辑我真蚌埠住,懒得写了反正就很逆天
 
 悠着点用要是人家长脑子了改了就用不了了
+
+**刷人数里面电话那个字段大概率有sql漏洞,请不要进行任何sql注入的尝试**
