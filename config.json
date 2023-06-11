@@ -1,0 +1,21 @@
+{
+  "cookie": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+  "proxy": "",
+  "num": {
+    "epochs": 1,
+    "tasks-num": 1,
+    "requests-num": 1,
+    "wait": 0.1,
+    "wait-epoch": 30,
+    "out": "n"
+  },
+  "person": {
+    "deptId": "0000000000000000",
+    "file": ".\\demo.csv",
+    "title": "n"
+  },
+  "rank": {
+    "once": "n",
+    "interval": 1
+  }
+}
