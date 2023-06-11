@@ -8,27 +8,41 @@
 
 1. 刷次数
 
-	```shell
-	python num.py --cookie[ --epochs][ --tasks-num][ --requests-num][ --wait][ --wait-epoch][ --out][ --proxy]
-	```
+  ```shell
+  python main.py -t num
+  ```
+
+  ```shell
+  python num.py --cookie[ --epochs][ --tasks-num][ --requests-num][ --wait][ --wait-epoch][ --out][ --proxy]
+  ```
 
 2. 实时学习次数显示
 
-	```shell
-	python rank.py --cookie[ --once][ --interval]
-	```
+  ```shell
+  python main.py -t rank
+  ```
+
+  ```shell
+  python rank.py --cookie[ --once][ --interval]
+  ```
 
 3. 刷人数
 
-	```shell
-	python person.py --cookie --deptId --file[ --title][ --proxy]
-	```
+  ```shell
+  python main.py -t person
+  ```
+
+  ```shell
+  python person.py --cookie --deptId --file[ --title][ --proxy]
+  ```
 
 4. 爬取团支部id
 
-	```shell
-	python deptId.py[ --proxy]
-	```
+  ```shell
+  python deptId.py[ --proxy]
+  ```
+
+**更新: 所有参数可在配置文件中修改, 使用main文件使用配置文件并选择模式**
 
 ## 推荐
 
@@ -86,6 +100,11 @@
 #### deptId
 
 - `-p` `--proxy` 设置代理,同main.py
+
+#### main
+
+- `-cf` `--config-file` 配置文件路径(默认为.\config.json)
+- `-t` `--type` 模式(num/person/rank)
 
 
 ## 如何获取cookie
