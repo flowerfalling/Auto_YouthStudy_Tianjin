@@ -9,17 +9,17 @@
 1. 刷次数
 
   ```shell
-  python main.py -t num
+  python main.py num
   ```
 
   ```shell
-  python num.py --cookie[ --epochs][ --tasks-num][ --requests-num][ --wait][ --wait-epoch][ --out][ --proxy]
+  python num.py --cookie[ --epochs][ --tasks][ --requests][ --wait][ --waite][ --out][ --proxy]
   ```
 
 2. 实时学习次数显示
 
   ```shell
-  python main.py -t rank
+  python main.py rank
   ```
 
   ```shell
@@ -29,7 +29,7 @@
 3. 刷人数
 
   ```shell
-  python main.py -t person
+  python main.py person
   ```
 
   ```shell
@@ -51,7 +51,7 @@
 	运行一次理论次数200,000次,理论时间490s
 
 	```shell
-	python num.py -c xxxxxxxxx -e 4 -tn 50 -rn 1000 -w 0.1 -we 30
+	python num.py -c xxxxxxxxx -e 4 -t 50 -r 1000 --wait 0.1 -waite 30
 	```
 
 2. 刷人数
@@ -73,17 +73,17 @@
 
 #### main
 
-- `-cf` `--config-file` 配置文件路径(默认为.\config.json, urf-8)
-- `-t` `--type` 模式(num/person/rank)
+- `-m` `--mode` 模式(num/person/rank)
+- `-c` `--config-file` 配置文件路径(默认为.\config.json, urf-8)
 
 #### num
 
 * `-c` `--cookie` cookie
 * `-e` `--epochs` 运行次数
-* `-tn` `--tasks-num` task数量
-* `-rn` `--requests-num` 单个task循环请求次数,最好不要超过1000
-* `-w` `--wait` 单个task中每次请求后等待时间(s)
-* `-we` `--wait-epoch` 每次循环后等待时间(s)
+* `-t` `--tasks` task数量
+* `-r` `--requests` 单个task循环请求次数,最好不要超过1000
+*  `--wait` 单个task中每次请求后等待时间(s)
+*  `--waite` 每次循环后等待时间(s)
 * `-o` `--out` 是否打印报文(y/n)
 * `-p` `--proxy` 设置代理,格式为"ip:port"
 
@@ -112,16 +112,16 @@
 
 ## 刷次数高并发的次数与间隔
 
-1. tasks-num 协程task数目
-2. requests-num 每个task中发送请求的次数
+1. tasks 协程task数目
+2. requests 每个task中发送请求的次数
 3. wait 第2条中每次发送请求后的等待间隔
-4. epoch 程序重复次数
-5. wait-epoch 每次epoch后等待的时间
+4. epochs 程序重复次数
+5. waite 每次epoch后等待的时间
 6. print 是否打印出返回的报文, 例如 "HTTP/1.1 302 \r\nServer: CloudWAF\r\nDate: ..."
 
-理论次数 = tn * rn * epochs
+理论次数 = t * r * epochs
 
-理论耗时 = (rm * w * n + we) * epochs - we
+理论耗时 = (r * wait * n + waite) * epochs - waite
 
 *n为正整数,一般为1,除非执行tn次发送报文的时间大于wait时间,n为发送tn次报文所需时间除以wait时间向上取整*
 
