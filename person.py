@@ -3,8 +3,9 @@
 # @Author  : 之落花--falling_flowers
 # @File    : person.py
 # @Software: PyCharm
-import argparse
 import csv
+
+import fire
 import requests
 from typing import Iterator
 
@@ -18,7 +19,7 @@ class Study:
         self.__header = {'Cookie': f'JSESSIONID={self.__JSESSIONID}'}
         self.__info = []
         self.proxy = {'http': proxy}
-        self._ocr = ddddocr.DdddOcr(show_ad=False)
+        self._ocr = ddddocr.DdddOcr()
 
     def study(self) -> None:
         for name, tel, qntype, sex in self.__info:
@@ -60,22 +61,19 @@ class Study:
         return self._ocr.classification(resp.content)
 
 
-def get_args():
-    parser = argparse.ArgumentParser(description='Required parameters')
-    parser.add_argument('-c', '--cookie', type=str, required=True, help='cookie')
-    parser.add_argument('-d', '--deptId', type=str, required=True, help='团支部id')
-    parser.add_argument('-f', '--file', type=str, required=True, help='读取信息的csv文件')
-    parser.add_argument('-t', '--title', type=str, default=False, help='读取文件是否加载第一行')
-    parser.add_argument('-p', '--proxy', type=str, default=None, help='添加代理(eg. "127.0.0.1:7890")')
-    return parser.parse_args()
-
-
-def main():
-    args = get_args()
-    study = Study(args.cookie, args.deptId, args.proxy)
-    study.load_file(args.file, args.title == 'y')
+def main(cookie, deptId, file=r'.\info.csv', title='n', proxy=''):
+    """
+    刷人数工具
+    :param cookie:cookie
+    :param deptId:团支部id
+    :param file:读取信息的csv文件
+    :param title:读取文件是否加载第一行(y/n)
+    :param proxy:添加代理
+    """
+    study = Study(cookie, deptId, proxy)
+    study.load_file(file, title == 'y')
     study.study()
 
 
 if __name__ == '__main__':
-    main()
+    fire.Fire(main)

@@ -1,4 +1,4 @@
-# Auto_YouthStudy_Tianjin
+# Auto YouthStudy-Tianjin
 
 天津市青年大学习 刷学习次数/刷人数(完成率) 工具
 
@@ -73,8 +73,13 @@
 
 #### main
 
+- `-cf` `--config-file` 配置文件路径(默认为.\config.json, urf-8)
+- `-t` `--type` 模式(num/person/rank)
+
+#### num
+
 * `-c` `--cookie` cookie
-* `-e` `--epochs` 重复次数
+* `-e` `--epochs` 运行次数
 * `-tn` `--tasks-num` task数量
 * `-rn` `--requests-num` 单个task循环请求次数,最好不要超过1000
 * `-w` `--wait` 单个task中每次请求后等待时间(s)
@@ -84,28 +89,22 @@
 
 #### rank
 
-- `-c` `--cookie` cookie,同main.py
+- `-c` `--cookie` cookie,同num.py
 - `-o` `--once` 只获取一次排名(y/n)
 - `-i` `--interval` 连续获取排名的间隔时间(s)
-- `-p` `--proxy` 设置代理,同main.py
+- `-p` `--proxy` 设置代理,同num.py
 
 #### person
 
-- `-c` `--cookie` cookie,同main.py
+- `-c` `--cookie` cookie,同num.py
 - `-d` `--deptId` 所在团支部的id,可通过浏览器f12查看或通过deptId.py爬取查找
 - `-f` `--file` 读取信息的csv文件,格式为4列,分别对应:名字,电话(这个字段不能设置相同的值),团员青年/普通青年(1/2),性别:男/女(1/2)
 - `-t` `--title` 读取文件是否加载第一行(默认为否,若csv文件没有表头可设置为"y")
-- `-p` `--proxy` 设置代理,同main.py
+- `-p` `--proxy` 设置代理,同num.py
 
 #### deptId
 
-- `-p` `--proxy` 设置代理,同main.py
-
-#### main
-
-- `-cf` `--config-file` 配置文件路径(默认为.\config.json)
-- `-t` `--type` 模式(num/person/rank)
-
+- `-p` `--proxy` 设置代理,同num.py
 
 ## 如何获取cookie
 

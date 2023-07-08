@@ -3,40 +3,31 @@
 # @Author  : 之落花--falling_flowers
 # @File    : main.py.py
 # @Software: PyCharm
-import argparse
-import os
 import json
+import fire
 
 
-def get_args():
-    parser = argparse.ArgumentParser(description='Required parameters')
-    parser.add_argument('-cf', '--config-file', type=str, default='.\config.json', required=False, help='配置文件路径')
-    parser.add_argument('-t', '--type', type=str, required=True, help='功能(num/person/rank)')
-    return parser.parse_args()
-
-def main():
-    args = get_args()
-    command = ['python']
-    with open(f'{args.config_file}', encoding='utf-8') as config_file:
+def main(mode, config_file_path=r'.\config.json'):
+    """
+    使用配置文件启动工具
+    :param mode:模式(num/person/rank)
+    :param config_file_path:配置文件路径
+    """
+    with open(f'{config_file_path}', encoding='utf-8') as config_file:
         config = json.load(config_file)
-    match args.type:
+    match mode:
         case "num":
-            command.append(r'.\num.py')
+            import num
+            num.run(config['cookie'],  *config['num'].values(), config['proxy'])
         case "person":
-            command.append(r'.\person.py')
+            import person
+            person.main(config['cookie'], *config['person'].values(), config['proxy'])
         case "rank":
-            command.append(r'.\rank.py')
+            import rank
+            rank.main(config['cookie'], *config['rank'].values(), config['proxy'])
         case _:
             raise ValueError('模式错误, 应为num/person/rank')
-    command.append(f'--cookie "{config["cookie"]}"')
-    if config["proxy"]:
-        command.append(f'--proxy "{config["proxy"]}"')
-    for k in config[args.type]:
-        v = config[args.type][k]
-        command.append(f'--{k}')
-        command.append(f'"{v}"' if isinstance(v, str) else f'{v}')
-    os.system(' '.join(command))
 
 
 if __name__ == '__main__':
-    main()
+    fire.Fire(main)

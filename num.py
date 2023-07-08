@@ -6,23 +6,11 @@
 import asyncio
 import socket
 import time
-import argparse
+
+import fire
 import socks
 
 nots = 0
-
-
-def get_args():
-    parser = argparse.ArgumentParser(description='Required parameters')
-    parser.add_argument('-c', '--cookie', type=str, required=True, help='cookie')
-    parser.add_argument('-e', '--epochs', type=int, default=1, help='重复次数')
-    parser.add_argument('-tn', '--tasks-num', type=int, default=1, help='task数量')
-    parser.add_argument('-rn', '--requests-num', type=int, default=1, help='单个task循环请求次数,最好不要超过1000')
-    parser.add_argument('-w', '--wait', type=float, default=0.1, help='单个task中每次请求后等待时间(s)')
-    parser.add_argument('-we', '--wait-epoch', type=float, default=30, help='每次循环后等待时间(s)')
-    parser.add_argument('-o', '--out', type=str, default='n', help='是否打印报文(y/n)')
-    parser.add_argument('-p', '--proxy', type=str, default=None, help='添加代理(eg. "127.0.0.1:7890")')
-    return parser.parse_args()
 
 
 async def visit(t, req, w, p):
@@ -47,7 +35,7 @@ async def visit(t, req, w, p):
     conn.close()
 
 
-def proxy(p: str):
+def set_proxy(p: str):
     if not p:
         return True
     p = p.split(':')
@@ -67,26 +55,36 @@ def proxy(p: str):
     return True
 
 
-async def main(args):
-    if not proxy(args.proxy):
+async def main(cookie, tasks_num=1, requests_num=1, wait=0.1, out='n', proxy=''):
+    if not set_proxy(proxy):
         return
-    req_content = bytes(f'GET /zm/jump/1 HTTP/1.1\r\nHost: admin.ddy.tjyun.com\r\nCookie: JSESSIONID={args.cookie}\r\n\r\n', encoding='utf-8')
-    tasks = [asyncio.create_task(visit(args.requests_num, req_content, args.wait, args.out)) for _ in range(args.tasks_num)]
+    req_content = bytes(f'GET /zm/jump/1 HTTP/1.1\r\nHost: admin.ddy.tjyun.com\r\nCookie: JSESSIONID={cookie}\r\n\r\n', encoding='utf-8')
+    tasks = [asyncio.create_task(visit(requests_num, req_content, wait, out)) for _ in range(tasks_num)]
     await asyncio.wait(tasks)
 
 
-def run():
+def run(cookie, epochs=1, tasks=1, requests=1, wait=0.1, waite=30, out='n', proxy=''):
+    """
+    刷学习次数工具
+    :param cookie:cookie
+    :param epochs:运行次数
+    :param tasks:task数量
+    :param requests:单个task循环请求次数(最好不要超过1000)
+    :param wait:单个task中每次请求后等待时间(s)
+    :param waite:每次循环后等待时间(s)
+    :param out:是否打印报文(y/n)
+    :param proxy:添加代理
+    """
     global nots
-    args = get_args()
-    for e in range(args.epochs):
+    for e in range(epochs):
         if e:
-            time.sleep(args.wait_epoch)
+            time.sleep(waite)
         print(f'epoch{e + 1} start')
         t = time.time()
-        asyncio.run(main(args))
+        asyncio.run(main(cookie, tasks, requests, wait, out, proxy))
         print(f'epoch{e + 1}: finish, use time: {time.time() - t}s, 理论增加次数: {nots}')
         nots = 0
 
 
 if __name__ == '__main__':
-    run()
+    fire.Fire(run)
